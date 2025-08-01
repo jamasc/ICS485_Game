@@ -20,7 +20,7 @@ def wait_for_key(target_key, allow_escape=False):
 
 def home_screen(screen):
     screen.fill(BACKGROUND_COLOR)
-    draw_text_centered(screen, "Press SPACE to Start", 48)
+    draw_text_centered(screen, "Press SPACE to Start (or [ESC] to exit)", 48)
     pygame.display.flip()
     wait_for_key(pygame.K_SPACE, allow_escape=True)
 
@@ -40,6 +40,7 @@ def win_screen(screen):
 
 def level_screen(screen, lvl_idx):
     screen.fill(BACKGROUND_COLOR)
-    draw_text_centered(screen, f"Level {lvl_idx + 1}", 128, y_offset=30)
+    draw_text_centered(screen, f"Level {lvl_idx + 1}", 128, y_offset=-30)
+    draw_text_centered(screen, f"DESTROY ALL ENEMIES", 64, y_offset=30)
     pygame.display.flip()
     pygame.time.wait(1000)

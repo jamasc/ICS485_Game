@@ -62,7 +62,7 @@ def game_loop(screen, clock, level_data):
                     px, py = player.get_center()
                     mx, my = pygame.mouse.get_pos()
                     direction = pygame.Vector2(mx - px, my - py)
-                    offset_distance = PLAYER_RADIUS + BULLET_RADIUS + 1
+                    offset_distance = PLAYER_RADIUS + BULLET_RADIUS + 5
                     spawn_pos = pygame.Vector2(px, py) + direction.normalize() * offset_distance
                     bullet = Bouncer(spawn_pos.x, spawn_pos.y, direction, BULLET_SPEED, BULLET_RADIUS, BULLET_COLOR, is_enemy=False)
                     projectiles.append(bullet)
