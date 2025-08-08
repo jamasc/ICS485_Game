@@ -58,14 +58,14 @@ def game_loop(screen, clock, level_data):
             if event.type == pygame.QUIT:
                 sys.exit()
             elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:     # player shooting
-                current_bullets = [p for p in projectiles if not p.is_enemy]
+                current_bullets = [p for p in projectiles if p.is_player]
                 if len(current_bullets) < MAX_BULLETS:
                     px, py = player.get_center()
                     mx, my = pygame.mouse.get_pos()
                     direction = pygame.Vector2(mx - px, my - py)
                     offset_distance = PLAYER_RADIUS + BULLET_RADIUS + 5
                     spawn_pos = pygame.Vector2(px, py) + direction.normalize() * offset_distance
-                    bullet = Bouncer(spawn_pos.x, spawn_pos.y, direction, BULLET_SPEED, BULLET_RADIUS, BULLET_COLOR, is_enemy=False)
+                    bullet = Bouncer(spawn_pos.x, spawn_pos.y, direction, BULLET_SPEED, BULLET_RADIUS, BULLET_COLOR, is_enemy=False, is_player=True)
                     projectiles.append(bullet)
 
         player.handle_input(keys, walls)
