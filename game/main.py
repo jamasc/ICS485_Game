@@ -53,10 +53,11 @@ def game_loop(screen, clock, level_data):
         screen.fill(BACKGROUND_COLOR)
         keys = pygame.key.get_pressed()
 
+        ### Player
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 sys.exit()
-            elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
+            elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:     # player shooting
                 current_bullets = [p for p in projectiles if not p.is_enemy]
                 if len(current_bullets) < MAX_BULLETS:
                     px, py = player.get_center()
@@ -69,25 +70,27 @@ def game_loop(screen, clock, level_data):
 
         player.handle_input(keys, walls)
 
+        ### Enemies and Bullets
         for obj in projectiles:
+            # shooting
+            # if enemy & timer good & ammo good & 
+            #
             obj.update(walls)
 
-        # Handle collisions
+        ### Handle collisions
         to_remove = set()
+        # Enemies and Bullets
         for a in projectiles:
             for b in projectiles:
-                if a == b or a.is_enemy == b.is_enemy:
+                if a == b or (a.is_enemy and b.is_enemy):
                     continue
                 if a.rect.colliderect(b.rect):
                     to_remove.add(a)
                     to_remove.add(b)
 
-        for obj in projectiles:
-            if obj.rect.colliderect(player.rect) and not player.is_invincible():
-                return "lose"
-
         projectiles = [obj for obj in projectiles if obj not in to_remove]
-
+        
+        # Powerups
         for box in powerups[:]:
             if player.rect.colliderect(box.rect):
                 if box.type == "speed":
@@ -106,7 +109,12 @@ def game_loop(screen, clock, level_data):
                     powerups.remove(box)
                     break
 
-        # Winning logic
+        ### Losing Logic
+        for obj in projectiles:
+            if obj.rect.colliderect(player.rect) and not player.is_invincible():
+                return "lose"
+        
+        ### Winning logic
         remaining_enemies = [p for p in projectiles if p.is_enemy]
         px, py = player.get_center()
         if level_data["goal"] == "kill_all" and not remaining_enemies:
@@ -114,7 +122,7 @@ def game_loop(screen, clock, level_data):
         elif level_data["goal"] == "escape" and (px < 0 or px > WIDTH or py < 0 or py > HEIGHT):
             return "win"
 
-
+        ### Display
         draw_walls(screen, walls, WALL_COLOR)
         player.draw(screen)
         for obj in projectiles:
