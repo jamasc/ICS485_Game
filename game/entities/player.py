@@ -3,7 +3,7 @@ from settings import PLAYER_RADIUS, PLAYER_SPEED, BOOST_MULTIPLIER, INVINCIBLE_C
 
 class Player:
     def __init__(self, x, y):
-        self.rect = pygame.Rect(x, y, PLAYER_RADIUS*2, PLAYER_RADIUS * 2)
+        self.rect = pygame.Rect(x, y, PLAYER_RADIUS*3, PLAYER_RADIUS*2)
         self.speed = PLAYER_SPEED
         self.boost_timer = 0
         self.invincible_timer = 0
@@ -27,8 +27,8 @@ class Player:
 
     def draw(self, screen):
         image = pygame.image.load("../game/assets/björil.PNG")
-        image = pygame.transform.scale(image, (self.rect.width*10, self.rect.height*10))
-        screen.blit(image, self.rect)
+        image = pygame.transform.scale(image, (self.rect.width*14, self.rect.height*14))
+        screen.blit(image, (self.rect.x - self.rect.width*7, self.rect.y - self.rect.height*7))
 
     def get_center(self):
         return self.rect.center

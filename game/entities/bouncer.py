@@ -45,5 +45,6 @@ class Bouncer:
         return self.invincible_timer > 0
 
     def draw(self, screen):
+
         color = INVINCIBLE_COLOR if self.is_invincible() else self.color
         pygame.draw.ellipse(screen, color, self.rect)
