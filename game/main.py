@@ -154,6 +154,10 @@ def main():
             elif result == "win":
                 continue
         else:
+            pygame.mixer.music.stop()
+            pygame.mixer.music.unload()
+            pygame.mixer.music.load("../game/assets/titlescreensong.mp3")
+            pygame.mixer.music.play(-1,0,8)
             win_screen(screen)
 
 
