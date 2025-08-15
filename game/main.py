@@ -58,23 +58,39 @@ def game_loop(screen, clock, level_data):
             if event.type == pygame.QUIT:
                 sys.exit()
             elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:     # player shooting
-                current_bullets = [p for p in projectiles if not p.is_enemy]
+                current_bullets = [p for p in projectiles if p.is_player]
                 if len(current_bullets) < MAX_BULLETS:
                     px, py = player.get_center()
                     mx, my = pygame.mouse.get_pos()
                     direction = pygame.Vector2(mx - px, my - py)
-                    offset_distance = PLAYER_RADIUS + BULLET_RADIUS + 5
+                    offset_distance = PLAYER_RADIUS + BULLET_RADIUS + 10
                     spawn_pos = pygame.Vector2(px, py) + direction.normalize() * offset_distance
-                    bullet = Bouncer(spawn_pos.x, spawn_pos.y, direction, BULLET_SPEED, BULLET_RADIUS, BULLET_COLOR, is_enemy=False)
+                    bullet = Bouncer(spawn_pos.x, spawn_pos.y, direction, BULLET_SPEED, BULLET_RADIUS, BULLET_COLOR, is_enemy=False, is_player=True)
                     projectiles.append(bullet)
 
         player.handle_input(keys, walls)
 
         ### Enemies and Bullets
+        # === Enemy Shooting ===
+        enemy_bullets = [p for p in projectiles if not p.is_enemy and not p.is_player]
+        if len(enemy_bullets) < ENEMY_BULLET_LIMIT:
+            for enemy in [p for p in projectiles if p.is_enemy]:
+                if random.random() < ENEMY_SHOOT_CHANCE:
+                    ex, ey = enemy.get_center()
+                    px, py = player.get_center()
+                    direction = pygame.Vector2(px - ex, py - ey)
+                    if direction.length() > 0:
+                        offset_distance = PLAYER_RADIUS + BULLET_RADIUS + 10
+                        spawn_pos = pygame.Vector2(ex, ey) + direction.normalize() * offset_distance
+                        bullet = Bouncer(
+                            spawn_pos.x, spawn_pos.y,
+                            direction, BULLET_SPEED, BULLET_RADIUS,
+                            BULLET_COLOR, is_enemy=False, is_player=False
+                        )
+                        projectiles.append(bullet)
+
+        
         for obj in projectiles:
-            # shooting
-            # if enemy & timer good & ammo good & 
-            #
             obj.update(walls)
 
         ### Handle collisions
@@ -84,8 +100,8 @@ def game_loop(screen, clock, level_data):
             for b in projectiles:
                 if a == b or (a.is_enemy and b.is_enemy):
                     continue
-                if a.rect.colliderect(b.rect):
-                    to_remove.add(a)
+                if a.rect.colliderect(b.rect) and not b.is_invincible():
+                    #to_remove.add(a)     #why add this when the loop goes thru everything anyways
                     to_remove.add(b)
 
         projectiles = [obj for obj in projectiles if obj not in to_remove]

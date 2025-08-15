@@ -13,6 +13,8 @@ BULLET_RADIUS = 5
 ENEMY_RADIUS = 12
 BULLET_SPEED = 7
 ENEMY_SPEED = 2
+ENEMY_BULLET_LIMIT = 10       # max total enemy bullets on screen
+ENEMY_SHOOT_CHANCE = 0.005     # probability to shoot per frame (tweak as needed)
 FONT_COLOR = (255, 255, 255)
 
 BOX_SIZE = 20
@@ -23,3 +25,4 @@ INVINCIBLE_COLOR = (255, 255, 0)  # Yellow
 BOOST_DURATION = 180  # frames
 BOOST_MULTIPLIER = 1.75
 NUM_BOXES = 5
+
