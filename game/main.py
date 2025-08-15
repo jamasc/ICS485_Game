@@ -135,6 +135,7 @@ def main():
     pygame.mixer.music.load("../game/assets/titlescreensong.mp3")
 
     while True:
+        pygame.mixer.music.set_volume(0.7)
         pygame.mixer.music.play(-1,0,8)
         home_screen(screen)
         for level_index, level_fn in enumerate(LEVELS):
@@ -142,13 +143,18 @@ def main():
             pygame.mixer.music.stop()
             pygame.mixer.music.unload()
             pygame.mixer.music.load("../game/assets/gameplaysong.mp3")
+            pygame.mixer.music.set_volume(1)
             pygame.mixer.music.play(-1,0,8)
             level_data = level_fn()
             result = game_loop(screen, clock, level_data)
             if result == "lose":
                 pygame.mixer.music.stop()
                 pygame.mixer.music.unload()
+                pygame.mixer.music.load("../game/assets/ohbother.mp3")
+                pygame.mixer.music.play(1)
                 game_over_screen(screen)
+                pygame.mixer.music.stop()
+                pygame.mixer.music.unload()
                 pygame.mixer.music.load("../game/assets/titlescreensong.mp3")
                 break
             elif result == "win":
