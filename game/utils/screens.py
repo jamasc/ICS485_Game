@@ -19,8 +19,9 @@ def wait_for_key(target_key, allow_escape=False):
                     sys.exit()
 
 def home_screen(screen):
-    screen.fill(BACKGROUND_COLOR)
-    draw_text_centered(screen, "Press SPACE to Start (or [ESC] to exit)", 48)
+    home = pygame.image.load("../game/assets/mainscreen.JPG")
+    home = pygame.transform.scale(home, (WIDTH, HEIGHT))
+    screen.blit(home, (0, 0))
     pygame.display.flip()
     wait_for_key(pygame.K_SPACE, allow_escape=True)
 

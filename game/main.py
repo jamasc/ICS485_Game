@@ -50,9 +50,10 @@ def game_loop(screen, clock, level_data):
 
 
     while True:
-        screen.fill(BACKGROUND_COLOR)
+        level = pygame.image.load("../game/assets/background.JPG")
+        level = pygame.transform.scale(level, (WIDTH, HEIGHT))
+        screen.blit(level, (0, 0))        
         keys = pygame.key.get_pressed()
-
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 sys.exit()
