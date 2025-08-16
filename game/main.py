@@ -15,7 +15,7 @@ def spawn_enemy(walls):
         x = random.randint(ENEMY_RADIUS + 20, WIDTH - ENEMY_RADIUS - 20)
         y = random.randint(ENEMY_RADIUS + 20, HEIGHT - ENEMY_RADIUS - 20)
         dir = pygame.Vector2(random.uniform(-1, 1), random.uniform(-1, 1))
-        enemy = Bouncer(x, y, dir, ENEMY_SPEED, ENEMY_RADIUS, ENEMY_COLOR, is_enemy=True)
+        enemy = Bouncer(x, y, dir, ENEMY_SPEED, ENEMY_RADIUS, ENEMY_COLOR, is_enemy=True, is_shooter=ENEMY_IS_SHOOTER, inaccuracy=ENEMY_INACCURACY)
         if not any(enemy.rect.colliderect(w) for w in walls):
             return enemy
     return None
@@ -71,13 +71,17 @@ def game_loop(screen, clock, level_data):
         player.handle_input(keys, walls)
 
         ### Enemies and Bullets
-        # === Enemy Shooting ===
+        # Enemy Shooting 
         enemy_bullets = [p for p in projectiles if not p.is_enemy and not p.is_player]
         if len(enemy_bullets) < ENEMY_BULLET_LIMIT:
-            for enemy in [p for p in projectiles if p.is_enemy]:
+            for enemy in [p for p in projectiles if p.is_enemy and p.is_shooter]:
                 if random.random() < ENEMY_SHOOT_CHANCE:
                     ex, ey = enemy.get_center()
                     px, py = player.get_center()
+                    x_offset = (int) (random.random() * enemy.inaccuracy * 2 - enemy.inaccuracy)
+                    y_offset = (int) (random.random() * enemy.inaccuracy * 2 - enemy.inaccuracy)
+                    px += x_offset
+                    py += y_offset
                     direction = pygame.Vector2(px - ex, py - ey)
                     if direction.length() > 0:
                         offset_distance = PLAYER_RADIUS + BULLET_RADIUS + 10

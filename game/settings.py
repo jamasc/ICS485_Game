@@ -1,22 +1,32 @@
+# game
 WIDTH, HEIGHT = 800, 600
 FPS = 60
 MAX_BULLETS = 10
-
 BACKGROUND_COLOR = (30, 30, 30)
+WALL_COLOR = (200, 50, 50)
+FONT_COLOR = (255, 255, 255)
+
+# player
 PLAYER_COLOR = (0, 200, 255)
 PLAYER_RADIUS = 10
 PLAYER_SPEED = 4
-WALL_COLOR = (200, 50, 50)
+
+# bullet
 BULLET_COLOR = (255, 255, 0)
-ENEMY_COLOR = (255, 100, 0)
 BULLET_RADIUS = 5
-ENEMY_RADIUS = 12
 BULLET_SPEED = 7
-ENEMY_SPEED = 2
+
+# enemy
 ENEMY_BULLET_LIMIT = 10       # max total enemy bullets on screen
 ENEMY_SHOOT_CHANCE = 0.005     # probability to shoot per frame (tweak as needed)
-FONT_COLOR = (255, 255, 255)
 
+ENEMY_COLOR = (255, 100, 0)
+ENEMY_RADIUS = 12
+ENEMY_SPEED = 0
+ENEMY_IS_SHOOTER = True
+ENEMY_INACCURACY = 1000
+
+# powerups
 BOX_SIZE = 20
 BOX_SPEED_COLOR = (100, 255, 100)        # Green
 BOX_INVINCIBLE_COLOR = (200, 0, 200)     # Purple

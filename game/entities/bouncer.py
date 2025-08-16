@@ -2,7 +2,7 @@ import pygame
 from settings import BOOST_MULTIPLIER, INVINCIBLE_COLOR
 
 class Bouncer:
-    def __init__(self, x, y, direction, speed, radius, color, is_enemy=False, is_player=False):
+    def __init__(self, x, y, direction, speed, radius, color, is_enemy=False, is_player=False, is_shooter=False, inaccuracy=0):
         self.rect = pygame.Rect(x, y, radius * 2, radius * 2)
         self.pos = pygame.Vector2(x, y)
         self.radius = radius
@@ -13,6 +13,8 @@ class Bouncer:
         self.color = color
         self.is_enemy = is_enemy
         self.is_player = is_player
+        self.is_shooter = is_shooter
+        self.inaccuracy = inaccuracy
 
     def update(self, walls):
         current_speed = self.base_speed * BOOST_MULTIPLIER if self.boost_timer > 0 else self.base_speed
