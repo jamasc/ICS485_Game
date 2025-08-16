@@ -13,7 +13,7 @@ def level_1():
         "walls": outter_walls + [
             pygame.Rect(300, 200, 200, 20),
         ],
-        "num_enemies": 3,
+        "enemy_types": [0, 0, 0],
         "powerups": 3,
         "goal": "kill_all"
     }
@@ -24,7 +24,7 @@ def level_2():
             pygame.Rect(150, 150, 500, 20),
             pygame.Rect(400, 350, 20, 200),
         ],
-        "num_enemies": 5,
+        "enemy_types": [0, 1, 2],
         "powerups": 5,
         "goal": "kill_all"
     }

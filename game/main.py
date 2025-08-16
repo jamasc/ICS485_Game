@@ -10,12 +10,12 @@ from utils.screens import home_screen, game_over_screen, win_screen, level_scree
 from levels.level_data import LEVELS
 
 
-def spawn_enemy(walls):
+def spawn_enemy(walls, type):
     for _ in range(100):
         x = random.randint(ENEMY_RADIUS + 20, WIDTH - ENEMY_RADIUS - 20)
         y = random.randint(ENEMY_RADIUS + 20, HEIGHT - ENEMY_RADIUS - 20)
         dir = pygame.Vector2(random.uniform(-1, 1), random.uniform(-1, 1))
-        enemy = Bouncer(x, y, dir, ENEMY_SPEED, ENEMY_RADIUS, ENEMY_COLOR, is_enemy=True, is_shooter=ENEMY_IS_SHOOTER, inaccuracy=ENEMY_INACCURACY)
+        enemy = Bouncer(x, y, dir, ENEMY_SPEED[type], ENEMY_RADIUS, ENEMY_COLOR, is_enemy=True, is_shooter=ENEMY_IS_SHOOTER[type], inaccuracy=ENEMY_INACCURACY[type])
         if not any(enemy.rect.colliderect(w) for w in walls):
             return enemy
     return None
@@ -43,8 +43,8 @@ def game_loop(screen, clock, level_data):
     walls = level_data["walls"]
     powerups = spawn_boxes(walls, level_data["powerups"])
     projectiles = []
-    for _ in range(level_data["num_enemies"]):
-        enemy = spawn_enemy(walls)
+    for type in level_data["enemy_types"]:
+        enemy = spawn_enemy(walls, type)        # need to define type for this to work ###########################################################################
         if enemy:
             projectiles.append(enemy)
 

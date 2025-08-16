@@ -22,9 +22,10 @@ ENEMY_SHOOT_CHANCE = 0.005     # probability to shoot per frame (tweak as needed
 
 ENEMY_COLOR = (255, 100, 0)
 ENEMY_RADIUS = 12
-ENEMY_SPEED = 0
-ENEMY_IS_SHOOTER = True
-ENEMY_INACCURACY = 1000
+
+ENEMY_SPEED = [0, 2, 4]
+ENEMY_IS_SHOOTER = [False, True, False]
+ENEMY_INACCURACY = [0, 500, 0]
 
 # powerups
 BOX_SIZE = 20
