@@ -50,9 +50,10 @@ def game_loop(screen, clock, level_data):
 
 
     while True:
-        screen.fill(BACKGROUND_COLOR)
+        level = pygame.image.load("../game/assets/background.JPG")
+        level = pygame.transform.scale(level, (WIDTH, HEIGHT))
+        screen.blit(level, (0, 0))        
         keys = pygame.key.get_pressed()
-
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 sys.exit()
@@ -130,19 +131,39 @@ def main():
     screen = pygame.display.set_mode((WIDTH, HEIGHT))
     pygame.display.set_caption("Bjoeril Exit")
     clock = pygame.time.Clock()
+    pygame.mixer.init()
+    pygame.mixer.music.load("../game/assets/titlescreensong.mp3")
 
     while True:
+        pygame.mixer.music.set_volume(0.7)
+        pygame.mixer.music.play(-1,0,8)
         home_screen(screen)
         for level_index, level_fn in enumerate(LEVELS):
             level_screen(screen, level_index)
+            pygame.mixer.music.stop()
+            pygame.mixer.music.unload()
+            pygame.mixer.music.load("../game/assets/gameplaysong.mp3")
+            pygame.mixer.music.set_volume(1)
+            pygame.mixer.music.play(-1,0,8)
             level_data = level_fn()
             result = game_loop(screen, clock, level_data)
             if result == "lose":
+                pygame.mixer.music.stop()
+                pygame.mixer.music.unload()
+                pygame.mixer.music.load("../game/assets/ohbother.mp3")
+                pygame.mixer.music.play(1)
                 game_over_screen(screen)
+                pygame.mixer.music.stop()
+                pygame.mixer.music.unload()
+                pygame.mixer.music.load("../game/assets/titlescreensong.mp3")
                 break
             elif result == "win":
                 continue
         else:
+            pygame.mixer.music.stop()
+            pygame.mixer.music.unload()
+            pygame.mixer.music.load("../game/assets/titlescreensong.mp3")
+            pygame.mixer.music.play(-1,0,8)
             win_screen(screen)
 
 

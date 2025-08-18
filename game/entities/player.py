@@ -1,9 +1,9 @@
 import pygame
-from settings import PLAYER_COLOR, PLAYER_RADIUS, PLAYER_SPEED, BOOST_MULTIPLIER, INVINCIBLE_COLOR
+from settings import PLAYER_RADIUS, PLAYER_SPEED, BOOST_MULTIPLIER, INVINCIBLE_COLOR
 
 class Player:
     def __init__(self, x, y):
-        self.rect = pygame.Rect(x, y, PLAYER_RADIUS * 2, PLAYER_RADIUS * 2)
+        self.rect = pygame.Rect(x, y, PLAYER_RADIUS*3, PLAYER_RADIUS*2)
         self.speed = PLAYER_SPEED
         self.boost_timer = 0
         self.invincible_timer = 0
@@ -26,8 +26,9 @@ class Player:
             self.invincible_timer -= 1
 
     def draw(self, screen):
-        color = INVINCIBLE_COLOR if self.is_invincible() else PLAYER_COLOR
-        pygame.draw.ellipse(screen, color, self.rect)
+        image = pygame.image.load("../game/assets/björil.PNG")
+        image = pygame.transform.scale(image, (self.rect.width*14, self.rect.height*14))
+        screen.blit(image, (self.rect.x - self.rect.width*7, self.rect.y - self.rect.height*7))
 
     def get_center(self):
         return self.rect.center

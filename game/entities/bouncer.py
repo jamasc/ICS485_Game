@@ -1,5 +1,17 @@
+import random
 import pygame
 from settings import BOOST_MULTIPLIER, INVINCIBLE_COLOR
+
+pygame.display.init()
+terror = [
+    pygame.image.load("../game/assets/beaker.PNG"),
+    pygame.image.load("../game/assets/microscope.png"),
+    pygame.image.load("../game/assets/needle.png"),
+    pygame.image.load("../game/assets/paper.png"),
+    pygame.image.load("../game/assets/pill.png"),
+    pygame.image.load("../game/assets/scalpel.png"),
+    pygame.image.load("../game/assets/sparkplug.PNG"),
+]
 
 class Bouncer:
     def __init__(self, x, y, direction, speed, radius, color, is_enemy=False):
@@ -12,6 +24,10 @@ class Bouncer:
         self.invincible_timer = 0
         self.color = color
         self.is_enemy = is_enemy
+        self.image = None
+        if self.is_enemy and terror:
+            raw_image = random.choice(terror)
+            self.image = pygame.transform.scale(raw_image, (radius * 2, radius * 2))
 
     def update(self, walls):
         current_speed = self.base_speed * BOOST_MULTIPLIER if self.boost_timer > 0 else self.base_speed
@@ -44,6 +60,10 @@ class Bouncer:
     def is_invincible(self):
         return self.invincible_timer > 0
 
+
     def draw(self, screen):
-        color = INVINCIBLE_COLOR if self.is_invincible() else self.color
-        pygame.draw.ellipse(screen, color, self.rect)
+        if self.is_enemy and self.image:
+            screen.blit(self.image, self.rect)
+        else:
+            color = INVINCIBLE_COLOR if self.is_invincible() else self.color
+            pygame.draw.ellipse(screen, color, self.rect)
