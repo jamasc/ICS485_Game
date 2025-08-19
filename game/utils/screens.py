@@ -19,20 +19,24 @@ def wait_for_key(target_key, allow_escape=False):
                     sys.exit()
 
 def home_screen(screen):
-    screen.fill(BACKGROUND_COLOR)
-    draw_text_centered(screen, "Press SPACE to Start (or [ESC] to exit)", 48)
+    #screen.fill(BACKGROUND_COLOR)
+    homescreen = pygame.transform.scale(pygame.image.load("../game/assets/mainscreen.JPG"), (WIDTH, HEIGHT))
+    screen.blit(homescreen, (0, 0))
+    #draw_text_centered(screen, "Press SPACE to Start (or [ESC] to exit)", 48)
     pygame.display.flip()
     wait_for_key(pygame.K_SPACE, allow_escape=True)
 
-def game_over_screen(screen):
-    screen.fill(BACKGROUND_COLOR)
+def game_over_screen(screen, level):
+    screen.fill((255, 0, 0))
+    highscore = int(open("HIGHSCORE.txt").read())          # read integer
     draw_text_centered(screen, "Game Over", 64, y_offset=-30)
-    draw_text_centered(screen, "Press SPACE to Restart", 36, y_offset=30)
+    draw_text_centered(screen, f"You made it to level {level + 1}. High Score is {highscore}", 55, y_offset=30)
+    draw_text_centered(screen, "Press SPACE to Restart", 36, y_offset=90)
     pygame.display.flip()
     wait_for_key(pygame.K_SPACE)
 
 def win_screen(screen):
-    screen.fill(BACKGROUND_COLOR)
+    screen.fill((100, 100, 100))
     draw_text_centered(screen, "Congratulations! You won!", 64, y_offset=-30)
     draw_text_centered(screen, "Press SPACE to Restart", 36, y_offset=30)
     pygame.display.flip()
@@ -42,5 +46,6 @@ def level_screen(screen, lvl_idx):
     screen.fill(BACKGROUND_COLOR)
     draw_text_centered(screen, f"Level {lvl_idx + 1}", 128, y_offset=-30)
     draw_text_centered(screen, f"DESTROY ALL ENEMIES", 64, y_offset=30)
+    draw_text_centered(screen, "Press SPACE to start the level!", 32, y_offset=90)
     pygame.display.flip()
-    pygame.time.wait(1000)
+    wait_for_key(pygame.K_SPACE)
