@@ -10,12 +10,12 @@ from utils.screens import home_screen, game_over_screen, win_screen, level_scree
 from levels.level_data import LEVELS
 
 
-def spawn_enemy(walls, type):
+def spawn_enemy(walls, enemy_type):
     for _ in range(100):
-        x = random.randint(ENEMY_RADIUS + 20, WIDTH - ENEMY_RADIUS - 20)
-        y = random.randint(ENEMY_RADIUS + 20, HEIGHT - ENEMY_RADIUS - 20)
+        x = random.randint(40, WIDTH - 40)
+        y = random.randint(40, HEIGHT - 40)
         dir = pygame.Vector2(random.uniform(-1, 1), random.uniform(-1, 1))
-        enemy = Bouncer(x, y, dir, ENEMY_SPEED[type], ENEMY_RADIUS, ENEMY_COLOR, is_enemy=True, is_shooter=ENEMY_IS_SHOOTER[type], inaccuracy=ENEMY_INACCURACY[type])
+        enemy = Bouncer(x, y, dir, ENEMY_SPEED[enemy_type], ENEMY_RADIUS[enemy_type], ENEMY_COLOR[enemy_type], is_enemy=True, is_shooter=ENEMY_IS_SHOOTER[enemy_type], inaccuracy=ENEMY_INACCURACY[enemy_type])
         if not any(enemy.rect.colliderect(w) for w in walls):
             return enemy
     return None
@@ -43,8 +43,8 @@ def game_loop(screen, clock, level_data):
     walls = level_data["walls"]
     powerups = spawn_boxes(walls, level_data["powerups"])
     projectiles = []
-    for type in level_data["enemy_types"]:
-        enemy = spawn_enemy(walls, type)        # need to define type for this to work ###########################################################################
+    for e_type in level_data["enemy_types"]:
+        enemy = spawn_enemy(walls, e_type)
         if enemy:
             projectiles.append(enemy)
 
@@ -166,7 +166,10 @@ def main():
             level_data = level_fn()
             result = game_loop(screen, clock, level_data)
             if result == "lose":
-                game_over_screen(screen)
+                highscore = int(open("HIGHSCORE.txt").read())          # read integer
+                if level_index >= highscore:
+                    open("HIGHSCORE.txt", "w").write(str(level_index+1))      # store integer
+                game_over_screen(screen, level_index)
                 break
             elif result == "win":
                 continue

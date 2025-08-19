@@ -27,7 +27,14 @@ class Player:
 
     def draw(self, screen):
         color = INVINCIBLE_COLOR if self.is_invincible() else PLAYER_COLOR
-        pygame.draw.ellipse(screen, color, self.rect)
+        #pygame.draw.ellipse(screen, color, self.rect)
+        pygame.draw.polygon(screen, color, [
+    (self.rect.centerx, self.rect.top),      # Top
+    (self.rect.right, self.rect.centery),    # Right
+    (self.rect.centerx, self.rect.bottom),   # Bottom
+    (self.rect.left, self.rect.centery)      # Left
+])
+
 
     def get_center(self):
         return self.rect.center
