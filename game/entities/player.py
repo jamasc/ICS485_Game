@@ -7,6 +7,10 @@ class Player:
         self.speed = PLAYER_SPEED
         self.boost_timer = 0
         self.invincible_timer = 0
+        # image = pygame.image.load("../game/assets/björil.PNG")
+        # self.image = pygame.transform.scale(image, (self.rect.width * 8, self.rect.height * 4))
+        self.image = pygame.transform.scale(pygame.image.load("../game/assets/björil.PNG"), (self.rect.width * 8, self.rect.height * 4))
+
 
     def handle_input(self, keys, walls):
         actual_speed = self.speed * BOOST_MULTIPLIER if self.boost_timer > 0 else self.speed
@@ -26,8 +30,14 @@ class Player:
             self.invincible_timer -= 1
 
     def draw(self, screen):
-        color = INVINCIBLE_COLOR if self.is_invincible() else PLAYER_COLOR
-        pygame.draw.ellipse(screen, color, self.rect)
+        # color = INVINCIBLE_COLOR if self.is_invincible() else PLAYER_COLOR
+        # pygame.draw.polygon(screen, color, [
+        #     (self.rect.centerx, self.rect.top),      # Top
+        #     (self.rect.right, self.rect.centery),    # Right
+        #     (self.rect.centerx, self.rect.bottom),   # Bottom
+        #     (self.rect.left, self.rect.centery)      # Left
+        # ])
+        screen.blit(self.image, (self.rect.x - self.rect.width * 3.5, self.rect.y - self.rect.height * 1.5))
 
     def get_center(self):
         return self.rect.center
