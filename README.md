@@ -1,6 +1,4 @@
-# ICS485_Game
-
-This is the game for ICS-485 
+# ICS 485 Game: 'Bjoeril Exit!'
 
 Just download the zip file to the main branch, run main.py, and have fun!
 
