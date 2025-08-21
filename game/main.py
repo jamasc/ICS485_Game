@@ -183,6 +183,7 @@ def main():
                 TRACKS['gameplay'].stop()
                 TRACKS['lose'].play()
                 game_over_screen(screen, level_index)
+                TRACKS['lose'].stop()
                 break
             elif result == "win":
                 continue
